@@ -1,7 +1,6 @@
 import React from 'react';
-import {View, Image, Text} from 'react-native';
+import {View, Image, Text, SafeAreaView} from 'react-native';
 import {Formik} from 'formik';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
 
 import styles from './LoginPage.style';

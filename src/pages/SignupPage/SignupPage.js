@@ -1,24 +1,46 @@
 import React from 'react';
-import {View, Image} from 'react-native';
+import {View, Image, SafeAreaView} from 'react-native';
 import {Formik} from 'formik';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import auth from '@react-native-firebase/auth';
+import showMessage from 'react-native-flash-message';
 
 import styles from './SignupPage.style';
 import Button from '../../components/buttons/PrimaryBtn';
 import Input from '../../components/Input';
+import SignupValidator from './ValidationSchema';
+import authErrorMessageParser from '../../utility/authErrorMessageParser';
 
 const initialValues = {
-  name: '',
   email: '',
   password: '',
   repassword: '',
-  gender: '',
-  profession: '',
 };
 
 const SignupPage = ({navigation}) => {
-  const handleSignup = () => {
-    values => console.log(values);
+  const handleSignup = async formValues => {
+    if (formValues.password !== formValues.repassword) {
+      showMessage({
+        message: 'Şifreler Eşleşmedi',
+        type: 'danger',
+      });
+      return;
+    }
+    try {
+      await auth().createUserWithEmailAndPassword(
+        formValues.usermail,
+        formValues.repassword,
+      );
+      showMessage({
+        message: 'Kullanıcı oluşturuldu',
+        type: 'success',
+      });
+      navigation.navigate('LoginPage');
+    } catch (err) {
+      showMessage({
+        message: authErrorMessageParser(err.code),
+        type: 'danger',
+      });
+    }
   };
   const handleBack = () => {
     navigation.navigate('LoginPage');
@@ -31,14 +53,12 @@ const SignupPage = ({navigation}) => {
           source={require('../../assets/codeworks.png')}
         />
       </View>
-      <Formik initialValues={initialValues} onSubmit={handleSignup}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSignup}
+        validationSchema={SignupValidator}>
         {({handleChange, handleSubmit, values}) => (
-          <View>
-            <Input
-              placeholder={'Name...'}
-              onType={handleChange('name')}
-              value={values.name}
-            />
+          <>
             <Input
               autoCapitalize="none"
               placeholder={'E-mail Address...'}
@@ -57,15 +77,8 @@ const SignupPage = ({navigation}) => {
               onType={handleChange('repassword')}
               value={values.repassword}
             />
-            <Input
-              autoCapitalize="none"
-              placeholder={'Profession...'}
-              onType={handleChange('profession')}
-              value={values.profession}
-            />
-
             <Button onPress={handleSubmit} text="Signup" />
-          </View>
+          </>
         )}
       </Formik>
       <Button
