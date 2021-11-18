@@ -1,49 +1,69 @@
 import React from 'react';
-import {View, TextInput, Image} from 'react-native';
+import {View, Image, Text} from 'react-native';
 import {Formik} from 'formik';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import auth from '@react-native-firebase/auth';
 
 import styles from './LoginPage.style';
-import colors from '../../style/colors';
 import Button from '../../components/buttons/PrimaryBtn';
+import Input from '../../components/Input';
+import LoginValidator from './ValidationSchema';
+
+const initialValues = {
+  email: '',
+  password: '',
+};
 
 const LoginPage = ({navigation}) => {
+  const handleLogin = async formValues => {
+    try {
+      await auth().signInWithEmailAndPassword(
+        formValues.email,
+        formValues.password,
+      );
+      navigation.navigate('JobsPage');
+    } catch (error) {
+      console.log(error);
+      /* showMessage({
+        message: authErrorMessageParser(err.code),
+        type: 'danger',
+      }); */
+    }
+  };
   const handleSignup = () => {
     navigation.navigate('SignupPage');
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.logoContainer}>
+      <View>
         <Image
           style={styles.logo}
           source={require('../../assets/codeworks.png')}
         />
       </View>
       <Formik
-        initialValues={{email: '', password: ''}}
-        onSubmit={values => console.log(values)}>
-        {({handleChange, handleBlur, handleSubmit, values}) => (
+        initialValues={initialValues}
+        onSubmit={handleLogin}
+        validationSchema={LoginValidator}>
+        {({handleChange, handleSubmit, values, errors}) => (
           <View>
-            <TextInput
+            <Input
               autoCapitalize="none"
               placeholder={'user e-mail...'}
-              placeholderTextColor={colors.secondary}
-              style={styles.input}
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
+              onType={handleChange('email')}
               value={values.email}
             />
-            <TextInput
+            {errors.email ? <Text>{errors.email}</Text> : null}
+            <Input
               autoCapitalize="none"
               placeholder={'user password...'}
-              placeholderTextColor={colors.secondary}
-              style={styles.input}
-              onChangeText={handleChange('password')}
-              onBlur={handleBlur('password')}
+              onType={handleChange('password')}
               value={values.password}
+              isSecure
             />
-            <Button onPress={null} text="Login" />
+            {errors.password ? <Text>{errors.password}</Text> : null}
+            <Button onPress={handleSubmit} text="Login" />
           </View>
         )}
       </Formik>

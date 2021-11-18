@@ -8,7 +8,7 @@ export default StyleSheet.create({
   },
   logo: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height / 4,
+    height: Dimensions.get('window').height / 3,
     resizeMode: 'contain',
     alignSelf: 'center',
     tintColor: colors.primary,

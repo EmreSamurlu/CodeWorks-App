@@ -1,92 +1,70 @@
 import React from 'react';
-import {View, TextInput, Image} from 'react-native';
+import {View, Image} from 'react-native';
 import {Formik} from 'formik';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import styles from './SignupPage.style';
-import colors from '../../style/colors';
 import Button from '../../components/buttons/PrimaryBtn';
+import Input from '../../components/Input';
+
+const initialValues = {
+  name: '',
+  email: '',
+  password: '',
+  repassword: '',
+  gender: '',
+  profession: '',
+};
 
 const SignupPage = ({navigation}) => {
+  const handleSignup = () => {
+    values => console.log(values);
+  };
   const handleBack = () => {
     navigation.navigate('LoginPage');
   };
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.logoContainer}>
+      <View>
         <Image
           style={styles.logo}
           source={require('../../assets/codeworks.png')}
         />
       </View>
-      <Formik
-        initialValues={{
-          name: '',
-          email: '',
-          password: '',
-          repassword: '',
-          gender: '',
-          profession: '',
-        }}
-        onSubmit={values => console.log(values)}>
-        {({handleChange, handleBlur, handleSubmit, values}) => (
+      <Formik initialValues={initialValues} onSubmit={handleSignup}>
+        {({handleChange, handleSubmit, values}) => (
           <View>
-            <TextInput
-              autoCapitalize="none"
+            <Input
               placeholder={'Name...'}
-              placeholderTextColor={colors.secondary}
-              style={styles.input}
-              onChangeText={handleChange('name')}
-              onBlur={handleBlur('name')}
+              onType={handleChange('name')}
               value={values.name}
             />
-            <TextInput
+            <Input
               autoCapitalize="none"
               placeholder={'E-mail Address...'}
-              placeholderTextColor={colors.secondary}
-              style={styles.input}
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
+              onType={handleChange('email')}
               value={values.email}
             />
-            <TextInput
+            <Input
               autoCapitalize="none"
               placeholder={'Password...'}
-              placeholderTextColor={colors.secondary}
-              style={styles.input}
-              onChangeText={handleChange('password')}
-              onBlur={handleBlur('password')}
+              onType={handleChange('password')}
               value={values.password}
             />
-            <TextInput
+            <Input
               autoCapitalize="none"
               placeholder={'Repassword...'}
-              placeholderTextColor={colors.secondary}
-              style={styles.input}
-              onChangeText={handleChange('repassword')}
-              onBlur={handleBlur('repassword')}
+              onType={handleChange('repassword')}
               value={values.repassword}
             />
-            <TextInput
-              autoCapitalize="none"
-              placeholder={'Select Gender...'}
-              placeholderTextColor={colors.secondary}
-              style={styles.input}
-              onChangeText={handleChange('gender')}
-              onBlur={handleBlur('gender')}
-              value={values.gender}
-            />
-            <TextInput
+            <Input
               autoCapitalize="none"
               placeholder={'Profession...'}
-              placeholderTextColor={colors.secondary}
-              style={styles.input}
-              onChangeText={handleChange('profession')}
-              onBlur={handleBlur('profession')}
+              onType={handleChange('profession')}
               value={values.profession}
             />
 
-            <Button onPress={null} text="Signup" />
+            <Button onPress={handleSubmit} text="Signup" />
           </View>
         )}
       </Formik>
