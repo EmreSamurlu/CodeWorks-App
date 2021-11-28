@@ -3,9 +3,9 @@ import {View, Text, TouchableOpacity} from 'react-native';
 
 import styles from './JobsCard.style';
 
-const JobsCard = ({job, onPress}) => {
+const JobsCard = ({...rest}) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity {...rest}>
       <View style={styles.container}>
         <Text>Selam</Text>
       </View>

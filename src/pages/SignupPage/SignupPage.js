@@ -1,8 +1,9 @@
 import React from 'react';
+import {useNavigation} from '@react-navigation/core';
 import {View, Image, SafeAreaView, Text} from 'react-native';
 import {Formik} from 'formik';
 import auth from '@react-native-firebase/auth';
-import showMessage from 'react-native-flash-message';
+// import showMessage from 'react-native-flash-message';
 
 import styles from './SignupPage.style';
 import Button from '../../components/buttons/PrimaryBtn';
@@ -15,7 +16,8 @@ const initialValues = {
   repassword: '',
 };
 
-const SignupPage = ({navigation}) => {
+const SignupPage = () => {
+  const navigation = useNavigation();
   const handleSignup = async formValues => {
     /* if (formValues.password !== formValues.repassword) {
       showMessage({

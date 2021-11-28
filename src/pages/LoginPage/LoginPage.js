@@ -1,8 +1,9 @@
 import React from 'react';
+import {useNavigation} from '@react-navigation/core';
 import {View, Image, Text, SafeAreaView} from 'react-native';
 import {Formik} from 'formik';
 import auth from '@react-native-firebase/auth';
-import {showMessage} from 'react-native-flash-message';
+// import {showMessage} from 'react-native-flash-message';
 
 import styles from './LoginPage.style';
 import Button from '../../components/buttons/PrimaryBtn';
@@ -16,7 +17,9 @@ const initialValues = {
   password: '',
 };
 
-const LoginPage = ({navigation}) => {
+const LoginPage = () => {
+  const navigation = useNavigation();
+
   const {loading} = useFetch();
 
   const handleLogin = async formValues => {
@@ -25,7 +28,7 @@ const LoginPage = ({navigation}) => {
         formValues.email,
         formValues.password,
       );
-      navigation.navigate('JobsPage');
+      navigation.navigate('MainStack');
     } catch (error) {
       console.log(error);
       /* showMessage({
