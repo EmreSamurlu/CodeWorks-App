@@ -2,11 +2,14 @@ import React from 'react';
 import {View, Image, Text, SafeAreaView} from 'react-native';
 import {Formik} from 'formik';
 import auth from '@react-native-firebase/auth';
+import {showMessage} from 'react-native-flash-message';
 
 import styles from './LoginPage.style';
 import Button from '../../components/buttons/PrimaryBtn';
 import Input from '../../components/Input';
 import LoginValidator from './ValidationSchema';
+import Loading from '../../components/Loading';
+import useFetch from '../../hooks/useFetch';
 
 const initialValues = {
   email: '',
@@ -14,6 +17,8 @@ const initialValues = {
 };
 
 const LoginPage = ({navigation}) => {
+  const {loading} = useFetch();
+
   const handleLogin = async formValues => {
     try {
       await auth().signInWithEmailAndPassword(
@@ -32,6 +37,10 @@ const LoginPage = ({navigation}) => {
   const handleSignup = () => {
     navigation.navigate('SignupPage');
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <SafeAreaView style={styles.container}>

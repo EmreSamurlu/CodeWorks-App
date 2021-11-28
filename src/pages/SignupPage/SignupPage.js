@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, SafeAreaView} from 'react-native';
+import {View, Image, SafeAreaView, Text} from 'react-native';
 import {Formik} from 'formik';
 import auth from '@react-native-firebase/auth';
 import showMessage from 'react-native-flash-message';
@@ -8,7 +8,6 @@ import styles from './SignupPage.style';
 import Button from '../../components/buttons/PrimaryBtn';
 import Input from '../../components/Input';
 import SignupValidator from './ValidationSchema';
-import authErrorMessageParser from '../../utility/authErrorMessageParser';
 
 const initialValues = {
   email: '',
@@ -18,28 +17,22 @@ const initialValues = {
 
 const SignupPage = ({navigation}) => {
   const handleSignup = async formValues => {
-    if (formValues.password !== formValues.repassword) {
+    /* if (formValues.password !== formValues.repassword) {
       showMessage({
         message: 'Şifreler Eşleşmedi',
         type: 'danger',
       });
       return;
-    }
+    } */
     try {
       await auth().createUserWithEmailAndPassword(
-        formValues.usermail,
+        formValues.email,
         formValues.repassword,
       );
-      showMessage({
-        message: 'Kullanıcı oluşturuldu',
-        type: 'success',
-      });
+      console.log(formValues);
       navigation.navigate('LoginPage');
     } catch (err) {
-      showMessage({
-        message: authErrorMessageParser(err.code),
-        type: 'danger',
-      });
+      console.log(err);
     }
   };
   const handleBack = () => {
@@ -57,7 +50,7 @@ const SignupPage = ({navigation}) => {
         initialValues={initialValues}
         onSubmit={handleSignup}
         validationSchema={SignupValidator}>
-        {({handleChange, handleSubmit, values}) => (
+        {({handleChange, handleSubmit, values, errors}) => (
           <>
             <Input
               autoCapitalize="none"
@@ -65,6 +58,7 @@ const SignupPage = ({navigation}) => {
               onType={handleChange('email')}
               value={values.email}
             />
+            {errors.email ? <Text>{errors.email}</Text> : null}
             <Input
               autoCapitalize="none"
               placeholder={'Password...'}
@@ -89,4 +83,5 @@ const SignupPage = ({navigation}) => {
     </SafeAreaView>
   );
 };
+
 export default SignupPage;

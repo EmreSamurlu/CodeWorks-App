@@ -18,6 +18,7 @@ const AuthStack = () => {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="LoginPage" component={LoginPage} />
       <Stack.Screen name="SignupPage" component={SignupPage} />
+      <Stack.Screen name="JobsPage" component={JobsPage} />
     </Stack.Navigator>
   );
 };
@@ -27,7 +28,7 @@ const AppDrawer = () => {
   return (
     <Drawer.Navigator initialRouteName="Jobs">
       <Drawer.Screen
-        name="Jobs"
+        name="JobsPage"
         component={JobsPage}
         options={{
           headerRight: () => (

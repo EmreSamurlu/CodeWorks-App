@@ -1,13 +1,8 @@
 import React from 'react';
-import AnimatedLottieView from 'lottie-react-native';
+import LottieView from 'lottie-react-native';
 
 const Loading = () => {
-  return (
-    <AnimatedLottieView
-      source={require('../../assets/btn-loading.json')}
-      autoPlay
-    />
-  );
+  return <LottieView source={require('../../assets/loading.json')} autoPlay />;
 };
 
 export default Loading;
