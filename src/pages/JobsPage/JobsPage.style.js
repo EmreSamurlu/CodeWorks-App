@@ -5,4 +5,12 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: 'lightyellow',
   },
+  btnContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pageNumber: {
+    fontSize: 24,
+  },
 });

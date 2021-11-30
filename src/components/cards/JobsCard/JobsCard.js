@@ -3,11 +3,11 @@ import {View, Text, TouchableOpacity} from 'react-native';
 
 import styles from './JobsCard.style';
 
-const JobsCard = ({...rest}) => {
+const JobsCard = ({job, ...rest}) => {
   return (
     <TouchableOpacity {...rest}>
       <View style={styles.container}>
-        <Text>Selam</Text>
+        <Text>{job.name}</Text>
       </View>
     </TouchableOpacity>
   );
