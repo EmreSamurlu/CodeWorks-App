@@ -8,6 +8,7 @@ import useFetch from '../../hooks/useFetch';
 import Loading from '../../components/Loading';
 import styles from './JobsPage.style';
 import Button from '../../components/buttons/PrimaryBtn';
+import routes from '../../navigation/routes';
 
 const JobsPage = () => {
   const navigation = useNavigation();
@@ -19,8 +20,28 @@ const JobsPage = () => {
   );
 
   const handleJobPress = (id, name) => {
-    navigation.navigate('DetailPage', {id, name});
+    navigation.navigate(routes.DETAIL_PAGE, {id, name});
   };
+  const handlePageInrement = () => {
+    setPage(prev => {
+      if (prev <= 1) {
+        return (prev = 50);
+      } else {
+        return prev - 1;
+      }
+    });
+  };
+
+  const handlePageDecrement = () => {
+    setPage(prev => {
+      if (prev >= 50) {
+        return (prev = 1);
+      } else {
+        return prev + 1;
+      }
+    });
+  };
+
   const renderJobDetail = ({item}) => (
     <JobsCard job={item} onPress={() => handleJobPress(item.id, item.name)} />
   );
@@ -39,29 +60,13 @@ const JobsPage = () => {
         <Button
           theme="icon"
           icon="arrow-left-bold-outline"
-          onPress={() =>
-            setPage(prev => {
-              if (prev <= 1) {
-                return (prev = 50);
-              } else {
-                return prev - 1;
-              }
-            })
-          }
+          onPress={handlePageInrement}
         />
         <Text style={styles.pageNumber}>{page}</Text>
         <Button
           theme="icon"
           icon="arrow-right-bold-outline"
-          onPress={() =>
-            setPage(prev => {
-              if (prev >= 50) {
-                return (prev = 1);
-              } else {
-                return prev + 1;
-              }
-            })
-          }
+          onPress={handlePageDecrement}
         />
       </View>
     </SafeAreaView>
