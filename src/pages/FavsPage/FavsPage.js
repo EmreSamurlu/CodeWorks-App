@@ -1,7 +1,7 @@
 import React from 'react';
 import {SafeAreaView, Text} from 'react-native';
 
-const FavsPage = () => {
+const FavoritesPage = () => {
   return (
     <SafeAreaView>
       <Text>Favs Page</Text>
@@ -9,4 +9,4 @@ const FavsPage = () => {
   );
 };
 
-export default FavsPage;
+export default FavoritesPage;
